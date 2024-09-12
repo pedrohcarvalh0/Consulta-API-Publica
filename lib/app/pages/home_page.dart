@@ -5,7 +5,7 @@ import '../components/product_search_bar.dart';
 import '../data/http/http_client.dart';
 import '../data/models/produto_model.dart';
 import '../data/repositories/produto_repository.dart';
-import 'produto_store.dart';
+import '../data/repositories/produto_store.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
