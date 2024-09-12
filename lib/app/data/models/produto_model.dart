@@ -1,8 +1,8 @@
 class ProdutoModel {
   final String title;
   final String description;
-  final String price;
-  final String rating;
+  final double price;
+  final double rating;
   final String brand;
   final String category;
   final String thumbnail;
@@ -21,14 +21,14 @@ class ProdutoModel {
 
   factory ProdutoModel.fromMap(Map<String, dynamic> map) {
     return ProdutoModel(
-      title: map['title'],
-      description: map['description'],
-      price: map['price'] * 1.0,
-      rating: map['rating'] * 1.0,
-      brand: map['brand'],
-      category: map['category'],
-      thumbnail: map['thumbnail'],
-      images: List<String>.from((map['images'] as List)),
+      title: map['title'] ?? 'Sem título',
+      description: map['description'] ?? 'Sem descrição',
+      price: (map['price'] as num?)?.toDouble() ?? 0.0,
+      rating: (map['rating'] as num?)?.toDouble() ?? 0.0,
+      brand: map['brand'] ?? 'Sem marca',
+      category: map['category'] ?? 'Sem categoria',
+      thumbnail: map['thumbnail'] ?? '',
+      images: List<String>.from(map['images'] ?? []),
     );
   }
 }
