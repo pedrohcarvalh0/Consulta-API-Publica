@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../components/product_list_view.dart';
-import '../../components/product_search_bar.dart';
-import '../../data/http/http_client.dart';
-import '../../data/models/produto_model.dart';
-import '../../data/repositories/produto_repository.dart';
-import 'stores/produto_store.dart';
+import '../components/product_list_view.dart';
+import '../components/product_search_bar.dart';
+import '../data/http/http_client.dart';
+import '../data/models/produto_model.dart';
+import '../data/repositories/produto_repository.dart';
+import 'produto_store.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -63,6 +63,15 @@ class _HomePageState extends State<HomePage> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.shopping_cart_outlined,
+              color: Colors.white,
+            ),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: Column(
         children: [
