@@ -63,9 +63,9 @@ class _ProductListItemState extends State<ProductListItem> {
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
                       widget.produto.thumbnail,
-                      height: 150,
+                      height: 200,
                       width: double.infinity,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                     ),
                   ),
                   const SizedBox(height: 10),
