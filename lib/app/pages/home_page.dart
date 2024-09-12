@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         title: const Text(
-          'Consumo de APIs',
+          'Lojinha Pakito',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,

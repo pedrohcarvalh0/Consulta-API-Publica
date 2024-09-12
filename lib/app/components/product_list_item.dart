@@ -18,7 +18,6 @@ class _ProductListItemState extends State<ProductListItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navegar para a página de detalhes ao clicar
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -88,12 +87,24 @@ class _ProductListItemState extends State<ProductListItem> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      'R\$ ${widget.produto.price.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(255, 31, 0, 207),
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          'R\$ ${widget.produto.price.toStringAsFixed(2)}',
+                          style: const TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        ),
+                        const SizedBox(width: 90),
+                        Image.asset(
+                          'assets/entrega.png',
+                          height: 44,
+                          width: 90,
+                        ),
+                        const SizedBox(width: 8),
+                      ],
                     ),
                     const SizedBox(height: 8),
                     Text(

@@ -1,18 +1,35 @@
 import 'package:flutter/material.dart';
-
 import '../data/models/produto_model.dart';
 
-class ProductDetailsPage extends StatelessWidget {
+class ProductDetailsPage extends StatefulWidget {
   final ProdutoModel produto;
 
   const ProductDetailsPage({super.key, required this.produto});
+
+  @override
+  _ProductDetailsPageState createState() => _ProductDetailsPageState();
+}
+
+class _ProductDetailsPageState extends State<ProductDetailsPage> {
+  void _showPurchaseSuccessMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Compra realizada com sucesso!',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 4),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          produto.title,
+          widget.produto.title,
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.deepPurple,
@@ -27,116 +44,134 @@ class ProductDetailsPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.network(
-                    produto.thumbnail,
-                    height: 250,
-                    width: 250,
-                    fit: BoxFit.cover,
-                  ),
+            Container(
+              width: double.infinity,
+              height: 250,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(widget.produto.thumbnail),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
             const SizedBox(height: 16),
-            Text(
-              produto.title,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.green.shade100,
-                borderRadius: BorderRadius.circular(8),
-              ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                'R\$ ${produto.price.toStringAsFixed(2)}',
+                widget.produto.title,
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green,
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            const SizedBox(height: 22),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Preço e ícone de dinheiro
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/dinheiro.png',
+                        height: 30,
+                        width: 30,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'R\$ ${widget.produto.price.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/avaliacao.png',
+                        height: 24,
+                        width: 100,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        widget.produto.rating.toString(),
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.orange,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 25),
+            const Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Descrição",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+            // Container para a descrição
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(225, 218, 218, 218),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  widget.produto.description,
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             ),
-            const SizedBox(height: 10),
-            Text(
-              produto.description,
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'Marca: ${produto.brand}',
-              style: const TextStyle(fontSize: 14),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'Categoria: ${produto.category}',
-              style: const TextStyle(fontSize: 14),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'Avaliação: ${produto.rating}',
-              style: const TextStyle(fontSize: 14),
-            ),
-            const Spacer(),
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green, // Cor verde
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 50,
-                    vertical: 15,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
+            const SizedBox(height: 50),
+            // Botão Comprar
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: ElevatedButton.icon(
                 onPressed: () {
-                  // Exibe a mensagem quando o botão for clicado
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Compra realizada!'),
-                        content:
-                            const Text('Você comprou o produto com sucesso!'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop(); // Fecha o diálogo
-                            },
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  // Exibir mensagem de sucesso
+                  _showPurchaseSuccessMessage();
                 },
-                child: const Text(
+                icon: const Text(
                   'Comprar',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                label: Image.asset(
+                  'assets/pagamento.png',
+                  height: 34,
+                  width: 34,
+                ),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.green,
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
               ),
             ),
