@@ -24,6 +24,38 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
 
+  String _getAvaliacaoImage(double rating) {
+    if (rating > 4) {
+      return 'assets/quatro_ou_mais.png';
+    } else if (rating > 3) {
+      return 'assets/tres_ou_mais.png';
+    } else if (rating > 2) {
+      return 'assets/dois_ou_mais.png';
+    } else {
+      return 'assets/default.png'; //
+    }
+  }
+
+  void _showImageDialog(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(imageUrl),
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,13 +79,18 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              width: double.infinity,
-              height: 250,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(widget.produto.thumbnail),
-                  fit: BoxFit.cover,
+            GestureDetector(
+              onTap: () {
+                _showImageDialog(context, widget.produto.thumbnail);
+              },
+              child: Container(
+                width: double.infinity,
+                height: 250,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(widget.produto.thumbnail),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -75,7 +112,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Preço e ícone de dinheiro
                   Row(
                     children: [
                       Image.asset(
@@ -97,7 +133,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   Row(
                     children: [
                       Image.asset(
-                        'assets/avaliacao.png',
+                        _getAvaliacaoImage(widget.produto.rating),
                         height: 24,
                         width: 100,
                       ),
@@ -153,7 +189,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: ElevatedButton.icon(
                 onPressed: () {
-                  // Exibir mensagem de sucesso
                   _showPurchaseSuccessMessage();
                 },
                 icon: const Text(
