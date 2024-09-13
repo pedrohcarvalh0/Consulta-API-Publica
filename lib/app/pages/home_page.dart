@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         title: const Text(
-          'Pakito',
+          'Pakito Store',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
